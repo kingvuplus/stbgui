@@ -64,6 +64,11 @@ struct gOpcode
 		shutdown,
 
 		setCompositing,
+		sendShow,
+  		sendHide,
+#ifdef USE_LIBVUGLES2
+  		setView,
+#endif
 
 #ifdef HAVE_OSDANIMATION
 		sendShow,
@@ -150,6 +155,18 @@ struct gOpcode
 		} *setOffset;
 
 		gCompositingData *setCompositing;
+		
+                struct psetShowHideInfo
+ 		{
+ 			ePoint point;
+ 			eSize size;
+ 		} *setShowHideInfo;
+#ifdef USE_LIBVUGLES2
+ 		struct psetViewInfo
+ 		{
+ 			eSize size;
+ 		} *setViewInfo;
+#endif
 
 #ifdef HAVE_OSDANIMATION
 		struct psetShowHideInfo {
@@ -287,6 +304,11 @@ public:
 	void setCompositing(gCompositingData *comp);
 
 	void flush();
+	void sendShow(ePoint point, eSize size);
+ 	void sendHide(ePoint point, eSize size);
+#ifdef USE_LIBVUGLES2
+        void setView(eSize size);
+#endif
 
 #ifdef HAVE_OSDANIMATION
 	void sendShow(ePoint point, eSize size);
